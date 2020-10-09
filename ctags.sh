@@ -7,7 +7,7 @@
 function buildctags() {
     rm -f tags
     echo "old tags files removed, tags building..."
-    ctags -R --c-kinds=+px --c++-kinds=+px --fields=+nilazS --extras=+q
+    ctags -R --c-kinds=+px --c++-kinds=+px --fields=+nilazS --extras=+q --excmd=pattern --exclude=Makefile --exclude=.
 }
 
 function buildcscope() {

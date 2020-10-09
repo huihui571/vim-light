@@ -228,7 +228,7 @@ function! s:my_cr_function()
   return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
 endfunction
 " Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? neocomplcache#smart_close_popup() : "\<Space>"
+inoremap <expr><Space> pumvisible() ? neocomplcache#smart_close_popup() : "\<Space>"
 
 " Shell like behavior(not recommended).
 "set completeopt+=longest
@@ -255,6 +255,55 @@ let g:neocomplcache_omni_patterns.python = '[^. *\t]\.\h\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.python3 = '[^. *\t]\.\h\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
 let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+"####################Set python auto complete#################
+"禁止预览窗口
+set completeopt-=preview
+"设置为0禁止.触发补全
+let g:jedi#popup_on_dot=1
+"自定义快捷键
+let g:jedi#completions_command="<C-N>"
+let g:jedi#goto_command="<Leader>jd"
+let g:jedi#goto_assignments_command=""
+let g:jedi#goto_stubs_command="<Leader>js"
+let g:jedi#usages_command="<Leader>ju"
+let g:jedi#goto_definitions=""
+let g:jedi#documentation_command="K"
+let g:jedi#rename_command="<Leader>jr"
+"###################Set syntastic Setting################
+"设置error和warning的标志
+let g:syntastic_enable_signs = 1
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='►'
+let g:syntastic_enable_highlighting=1
+"设置状态栏
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+"设置lint命令
+let g:syntastic_cpp_checkers = ['gcc']
+let g:syntastic_cpp_compiler = 'gcc'
+let g:syntastic_cpp_compiler_options = '-std=c++11'
+let g:syntastic_python_checkers = ['flake8']
+"关闭实时检查，只在打开文件和保存时运行检查
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+"在列表窗口查看错误
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_loc_list_height = 5
+function! ToggleErrors()
+    let old_last_winnr = winnr('$')
+    lclose
+    if old_last_winnr == winnr('$')
+        " Nothing was closed, open syntastic error location panel
+        Errors
+    endif
+endfunction
+nnoremap <Leader>sl :call ToggleErrors()<cr>
+nnoremap <Leader>sn :lnext<cr>
+nnoremap <Leader>sp :lprevious<cr>
+"不显示代码风格检查
+let g:syntastic_quiet_messages = { "type": "style" }
 "####################Set TagList Setting#################
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
@@ -281,13 +330,34 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll|o)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
-"####################Set pydiction Setting#################
-let g:pydiction_location = '~/.vim/bundle/pydiction/complete-dict'
+"#################Set RainbowParentheses Setting########## 
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+let g:rbpt_max = 16
+let g:rbpt_loadcmd_toggle = 0
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
 
 "####################Set ctags Setting#################
 "ctags Setting
 set tags=tags;
-"set tags+=~/.vim/sytanx/cpp.tags
 function UpdateCtags()
     let curdir=getcwd()
     execute "echo curdir"
@@ -302,7 +372,7 @@ function UpdateCtags()
         "The effect is not good when silent Execute the operate ctags -R
         "!ctags -R --excmd=pattern --exclude=Makefile --exclude=.
         "!ctags -R --fields=+lS --excmd=pattern --exclude=Makefile --exclude=.
-        !ctags -R --c++-kinds=+px --fields=+ilaS --extra=+q --excmd=pattern --exclude=Makefile --exclude=.
+        !ctags -R --c-kinds=+px --c++-kinds=+px --fields=+nilazS --extras=+q --excmd=pattern --exclude=Makefile --exclude=.
     endif
     "Should return to the formal dir
     execute ":cd " . curdir
@@ -375,13 +445,13 @@ endfunction
 "silent! execute "!cscope -b -q"
 "execute "cs add cscope.out"
 
-nmap <C-@>s :cs find s <C-R>=expand("<cword>")<CR><CR>:copen<CR>
-nmap <C-@>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-nmap <C-@>c :cs find c <C-R>=expand("<cword>")<CR><CR>:copen<CR>
-nmap <C-@>t :cs find t <C-R>=expand("<cword>")<CR><CR>:copen<CR>
+nmap <Leader>fu :cs find s <C-R>=expand("<cword>")<CR><CR>:copen<CR>
+nmap <Leader>fd :cs find g <C-R>=expand("<cword>")<CR><CR>
+nmap <Leader>fc :cs find c <C-R>=expand("<cword>")<CR><CR>:copen<CR>
+nmap <Leader>fs :cs find t <C-R>=expand("<cword>")<CR><CR>:copen<CR>
 nmap <C-@>e :cs find e <C-R>=expand("<cword>")<CR><CR>:copen<CR>
 nmap <C-@>f :cs find f <C-R>=expand("<cfile>")<CR><CR>:copen<CR>
-"nmap <C-@>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>:copen<CR>
+"nmap <Leader>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>:copen<CR>
 nmap <C-@>i :cs find i <C-R>=expand("<cfile>")<CR><CR>:copen<CR>
 nmap <C-@>d :cs find d <C-R>=expand("<cword>")<CR><CR>:copen<CR>
  

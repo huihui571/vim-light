@@ -60,7 +60,8 @@
 let s:cpo_save = &cpo
 set cpo&vim
 """""""""""""Fox Added""""""""""""""""""""""
-let Tlist_Ctags_Cmd="/usr/bin/ctags"
+"let Tlist_Ctags_Cmd="/usr/bin/ctags"
+let Tlist_Ctags_Cmd="/snap/bin/ctags"
 """""""""""""Fox Added"""""""""""""""""""""""
 if !exists('loaded_taglist')
     " First time loading the taglist plugin
