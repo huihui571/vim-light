@@ -74,8 +74,8 @@ set autoread
 nnoremap cS :%s/\s\+$//g<CR>:noh<CR>
 " 常规模式下输入 cM 清除行尾 ^M 符号
 nnoremap cM :%s/\r$//g<CR>:noh<CR>
-" 空格+回车清除搜索高亮
-noremap <Leader><CR> :nohlsearch<CR>
+" 空格+/清除搜索高亮
+noremap <Leader>/ :nohlsearch<CR>
 " 窗口分割
 noremap sj :set splitbelow<CR>:split<CR>
 noremap sk :set nosplitbelow<CR>:split<CR>
@@ -126,7 +126,7 @@ noremap <silent> <F10> :belowright term ++rows=16<cr>
  noremap vim :vim /<C-R><C-W>../**<CR>:copen<CR>
 
 " <ESC>
- inoremap <Leader>[ <ESC>
+ inoremap jk <ESC>
 "退出
  nnoremap <S-q> :q!
  nnoremap <Leader>q :q<CR>
@@ -146,7 +146,7 @@ set cursorline                                        "突出显示当前行
 " set guifont=YaHei_Consolas_Hybrid:h10                 "设置字体:字号（字体名称空格用下划线代替）
 set nowrap                                            "设置不自动换行
 set viminfo+=!										  " 保存全局变量
-set iskeyword+=_,$,@,%,#,-							  "带有如下符号的单词不要被换行分割
+set iskeyword+=_,$,@,%,#							  "带有如下符号的单词不要被换行分割
 set backspace=2										  "使回格键（backspace）正常处理indent, eol, start等
 set whichwrap+=<,>,h,l								  "允许backspace和光标键跨越行边界
 "set fillchars=vert:\ ,stl:\ ,stlnc:\				  " 在被分割的窗口间显示空白，便于阅读
@@ -191,7 +191,7 @@ au BufRead,BufNewFile,BufEnter * cd %:p:h
 
 " 括号补全
 inoremap ' ''<ESC>i
-inoremap " ""<ESC>i
+"inoremap " ""<ESC>i
 "inoremap ( ()<ESC>i
 inoremap <silent>  (   ()<ESC>i<c-r>=EchoFunc()<cr>
 "inoremap ) <c-r>=ClosePair(')')<CR>
@@ -210,6 +210,19 @@ function ClosePair(char)
     endif
 endf
 
+" 根据文件类型设置命令
+if has("autocmd")
+   "autocmd FileType xml,html,c,cs,java,perl,shell,bash,cpp,python,vim,php,ruby set number
+   autocmd FileType xml,html,c,cs,java,perl,shell,bash,cpp,python,php,ruby inoremap " ""<ESC>i
+   autocmd FileType xml,html vmap <C-o> <ESC>'<i<!--<ESC>o<ESC>'>o-->
+   autocmd FileType java,c,cpp,cs vmap <C-o> <ESC>'<o/*<ESC>'>o*/
+   autocmd FileType html,text,php,vim,c,java,xml,bash,shell,perl,python setlocal textwidth=100
+   "autocmd Filetype html,xml,xsl source $VIMRUNTIME/plugin/closetag.vim
+   autocmd BufReadPost *
+      \ if line("'\"") > 0 && line("'\"") <= line("$") |
+      \   exe "normal g`\"" |
+      \ endif
+endif " has("autocmd")
 
 "######################################################
 "#                   PlugIn Management                #
@@ -228,12 +241,16 @@ function! s:my_cr_function()
   return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
 endfunction
 " Close popup by <Space>.
-inoremap <expr><Space> pumvisible() ? neocomplcache#smart_close_popup() : "\<Space>"
+"inoremap <expr><Space> pumvisible() ? neocomplcache#smart_close_popup() : "\<Space>"
 
 " Shell like behavior(not recommended).
-"set completeopt+=longest
+set completeopt+=longest
 let g:neocomplcache_enable_auto_select = 1
-let g:neocomplcache_disable_auto_complete = 0
+if has("autocmd")
+	"c++和python文件中禁止neocomplcache补全，使用其它补全插件
+    autocmd FileType c,cpp,python let g:neocomplcache_disable_auto_complete = 1
+endif " has("autocmd")
+
 function! CleverTab()
     let col=col('.')-1
     if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
@@ -255,13 +272,20 @@ let g:neocomplcache_omni_patterns.python = '[^. *\t]\.\h\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.python3 = '[^. *\t]\.\h\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
 let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
-"####################Set python auto complete#################
+"####################Set clang_complete Setting################
+let g:clang_library_path='/home/liuhui/apps/llvm_10.0.0/lib'
+let g:clang_auto_select=1
+let g:clang_snippets=1
+let g:clang_complete_optional_args_in_snippets=1
+let g:clang_trailing_placeholder=1
+
+"####################Set jedi-vim Setting#################
 "禁止预览窗口
 set completeopt-=preview
 "设置为0禁止.触发补全
 let g:jedi#popup_on_dot=1
 "自定义快捷键
-let g:jedi#completions_command="<C-N>"
+let g:jedi#completions_command="<C-x><C-u>"
 let g:jedi#goto_command="<Leader>jd"
 let g:jedi#goto_assignments_command=""
 let g:jedi#goto_stubs_command="<Leader>js"
@@ -440,9 +464,10 @@ nmap <C-@>d :cs find d <C-R>=expand("<cword>")<CR><CR>:copen<CR>
  
 if has("cscope")
     set cscopequickfix=s-,c-,d-,i-,t-,e-
-    set csto=0
-    set cst
-    set csverb
+    set csto=1      "1优先查找ctags数据,0优先cscope
+    set cst         "同时查找ctags和cscope       
+    set csverb      "增加数据库后显示信息
+    set cspc=3      "显示文件路径的最后3个部分
 endif
 
 "First <CR> to call the function; 
