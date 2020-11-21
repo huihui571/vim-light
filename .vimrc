@@ -145,11 +145,11 @@ set cmdheight=2                                       "设置命令行的高度�
 set cursorline                                        "突出显示当前行
 " set guifont=YaHei_Consolas_Hybrid:h10                 "设置字体:字号（字体名称空格用下划线代替）
 set nowrap                                            "设置不自动换行
-set viminfo+=!										  " 保存全局变量
-set iskeyword+=_,$,@,%,#							  "带有如下符号的单词不要被换行分割
-set backspace=2										  "使回格键（backspace）正常处理indent, eol, start等
-set whichwrap+=<,>,h,l								  "允许backspace和光标键跨越行边界
-"set fillchars=vert:\ ,stl:\ ,stlnc:\				  " 在被分割的窗口间显示空白，便于阅读
+set viminfo+=!                                        " 保存全局变量
+set iskeyword+=_,$,@,%,#                              "带有如下符号的单词不要被换行分割
+set backspace=2                                       "使回格键（backspace）正常处理indent, eol, start等
+set whichwrap+=<,>,h,l                                "允许backspace和光标键跨越行边界
+"set fillchars=vert:\ ,stl:\ ,stlnc:\                 " 在被分割的窗口间显示空白，便于阅读
 set shortmess=atI                                     "去掉欢迎界面
 " 我的状态行显示的内容（包括文件类型和解码）
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
