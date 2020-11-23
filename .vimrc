@@ -152,7 +152,7 @@ set whichwrap+=<,>,h,l                                "允许backspace和光标�
 "set fillchars=vert:\ ,stl:\ ,stlnc:\                 " 在被分割的窗口间显示空白，便于阅读
 set shortmess=atI                                     "去掉欢迎界面
 " 我的状态行显示的内容（包括文件类型和解码）
-set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
+"set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
 "if g:isGUI                                            "GVIM启动时最大化窗口
 "    set lines=50 columns=999
 "endif
@@ -361,6 +361,18 @@ au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
+"#################Set lightline Setting########## 
+let g:lightline = {
+      \ 'colorscheme': 'powerline',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ }
+set statusline^=%{coc#status()}
 
 "####################Set ctags Setting#################
 "ctags Setting
