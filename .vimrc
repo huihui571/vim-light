@@ -335,6 +335,7 @@ let Tlist_Exit_OnlyWindow=1
 "let Tlist_File_Fold_Auto_Close=1
 let Tlist_Show_Menu=1
 let Tlist_Use_Right_Window=1
+let Tlist_WinWidth=40 
 nmap <F4> :Tlist<CR>
 "####################Set NERDTree Setting#################
 " 常规模式下输入 F5 调用插件
