@@ -273,6 +273,7 @@ let g:neocomplcache_omni_patterns.python3 = '[^. *\t]\.\h\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
 let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
 "####################Set clang_complete Setting################
+let g:clang_complete_loaded = 0
 let g:clang_library_path='/home/liuhui/apps/llvm_10.0.0/lib'
 let g:clang_auto_select=1
 let g:clang_snippets=1
