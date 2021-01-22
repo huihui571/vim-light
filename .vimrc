@@ -246,10 +246,7 @@ endfunction
 " Shell like behavior(not recommended).
 set completeopt+=longest
 let g:neocomplcache_enable_auto_select = 1
-if has("autocmd")
-	"c++和python文件中禁止neocomplcache补全，使用其它补全插件
-    autocmd FileType c,cpp,python let g:neocomplcache_disable_auto_complete = 1
-endif " has("autocmd")
+let g:neocomplcache_disable_auto_complete = 0
 
 function! CleverTab()
     let col=col('.')-1
@@ -273,12 +270,6 @@ let g:neocomplcache_omni_patterns.python3 = '[^. *\t]\.\h\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
 let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
 "####################Set clang_complete Setting################
-let g:clang_complete_loaded = 0
-let g:clang_library_path='/home/liuhui/apps/llvm_10.0.0/lib'
-let g:clang_auto_select=1
-let g:clang_snippets=1
-let g:clang_complete_optional_args_in_snippets=1
-let g:clang_trailing_placeholder=1
 
 "####################Set jedi-vim Setting#################
 "禁止预览窗口
@@ -286,13 +277,13 @@ set completeopt-=preview
 "设置为0禁止.触发补全
 let g:jedi#popup_on_dot=1
 "自定义快捷键
-let g:jedi#completions_command="<C-x><C-u>"
+let g:jedi#completions_command=""
 let g:jedi#goto_command="<Leader>jd"
 let g:jedi#goto_assignments_command=""
 let g:jedi#goto_stubs_command="<Leader>js"
 let g:jedi#usages_command="<Leader>ju"
 let g:jedi#goto_definitions=""
-let g:jedi#documentation_command="K"
+let g:jedi#documentation_command="<C-q>"
 let g:jedi#rename_command="<Leader>jr"
 "###################Set syntastic Setting################
 "设置error和warning的标志
@@ -336,7 +327,7 @@ let Tlist_Exit_OnlyWindow=1
 "let Tlist_File_Fold_Auto_Close=1
 let Tlist_Show_Menu=1
 let Tlist_Use_Right_Window=1
-let Tlist_WinWidth=40 
+let Tlist_WinWidth=40
 nmap <F4> :Tlist<CR>
 "####################Set NERDTree Setting#################
 " 常规模式下输入 F5 调用插件
