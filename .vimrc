@@ -370,6 +370,7 @@ set statusline^=%{coc#status()}
 "####################Set ctags Setting#################
 "ctags Setting
 set tags=./.tags;,.tags
+set tags+=~/.vim/systags
 function UpdateCtags()
     let curdir=getcwd()
     execute "echo curdir"
