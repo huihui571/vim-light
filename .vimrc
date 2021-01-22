@@ -369,7 +369,7 @@ set statusline^=%{coc#status()}
 
 "####################Set ctags Setting#################
 "ctags Setting
-set tags=./tags;,tags
+set tags=./.tags;,.tags
 function UpdateCtags()
     let curdir=getcwd()
     execute "echo curdir"
