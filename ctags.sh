@@ -1,9 +1,10 @@
 #------------------------------------------------------------------
 #v1:2019.10.14   create files
 #v2:2020.10.8    add help info and update ctags cmd
-#v3:2021.1.22    change tags to .tags
+#v3:2021.1.22    change tags to .tags and add systags cmd
 #------------------------------------------------------------------
 
+#ctags -I __THROW --extras=+F --langmap=c:+.h --languages=c,c++ --links=yes --c-kinds=+p --fields=+S  -R -f ~/.vim/systags /usr/include /usr/local/include  
 #update for universal ctags
 function buildctags() {
     rm -f .tags
