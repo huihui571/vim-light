@@ -385,7 +385,7 @@ function UpdateCtags()
         "The effect is not good when silent Execute the operate ctags -R
         "!ctags -R --excmd=pattern --exclude=Makefile --exclude=.
         "!ctags -R --fields=+lS --excmd=pattern --exclude=Makefile --exclude=.
-        !ctags -R --c-kinds=+px --c++-kinds=+px --fields=+nilazS --extras=+q --excmd=pattern --exclude=Makefile --exclude=.
+        !ctags -R --c-kinds=+px --c++-kinds=+px --fields=+nilazS --extras=+q --excmd=pattern --exclude=Makefile --exclude=. -f .tags
     endif
     "Should return to the formal dir
     execute ":cd " . curdir
