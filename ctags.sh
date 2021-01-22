@@ -1,13 +1,14 @@
 #------------------------------------------------------------------
 #v1:2019.10.14   create files
 #v2:2020.10.8    add help info and update ctags cmd
+#v3:2021.1.22    change tags to .tags
 #------------------------------------------------------------------
 
 #update for universal ctags
 function buildctags() {
-    rm -f tags
+    rm -f .tags
     echo "old tags files removed, tags building..."
-    ctags -R --c-kinds=+px --c++-kinds=+px --fields=+nilazS --extras=+q --excmd=pattern --exclude=Makefile --exclude=.
+    ctags -R --c-kinds=+px --c++-kinds=+px --fields=+nilazS --extras=+q --excmd=pattern --exclude=Makefile --exclude=. -f .tags
 }
 
 function buildcscope() {
@@ -42,13 +43,13 @@ elif [ "${cmd}" == "-a" ]; then
 elif [ "${cmd}" == "-c" ]; then
     rm -f tags cscope.*
     echo "all tags files cleared!"
-elif [ "${cmd}" == "-h" ]; then
+elif [ "${cmd}" == "--help" ]; then
     echo "first args: 
     -t : ctags(default)
     -s : cscope
     -a : both ctags and cscope
     -c : clear all tags
-    -h : for help info"
+    --help : for help info"
     echo "second args: 
     -q : cscope quick files"
 fi
