@@ -209,6 +209,14 @@ function ClosePair(char)
         return a:char
     endif
 endf
+autocmd BufWritePre,BufRead *.[ch]p* :inoremap <Enter> <c-r>=BracketsEnter('}')<CR>
+function BracketsEnter(char)
+    if getline('.')[col('.')-1] == a:char
+        return "\<Enter>\<Tab>\<Esc>mpa\<Enter>\<Esc>`pa"
+    else
+        return "\<Enter>"
+    endif
+endf
 
 " 根据文件类型设置命令
 if has("autocmd")
