@@ -1,0 +1,214 @@
+"let mapleader = "\<space>"
+nmap <Space> <Leader>
+noremap <leader>rc :vsp ~/.vimrc<CR>
+" =============================================================================
+"                          << 以下为软件默认配置 >>
+" =============================================================================
+set nocompatible                   "禁用 Vi 兼容模式
+set ignorecase                     "搜索模式里忽略大小写
+set smartcase                      "如果搜索模式包含大写字符，不使用 'ignorecase' 选项，只有在输入搜索模式并且打开 'ignorecase' 选项时才会使用
+" set noincsearch                  "在输入要搜索的文字时，取消实时匹配
+set hlsearch        			   "高亮搜索
+set incsearch                      "在输入要搜索的文字时，实时匹配
+set mouse=a                        " 在任何模式下启用鼠标
+
+if has("syntax")
+    " syntax on
+    syntax enable
+endif
+" =============================================================================
+"                          << 以下为用户自定义配置 >>
+" =============================================================================
+
+" -----------------------------------------------------------------------------
+"  < 编码配置 >
+" -----------------------------------------------------------------------------
+" 注：使用utf-8格式后，软件与程序源码、文件路径不能有中文，否则报错
+set encoding=utf-8                                    "设置gvim内部编码，默认不更改
+set fileencoding=utf-8                                "设置当前文件编码，可以更改，如：gbk（同cp936）
+set fileencodings=ucs-bom,utf-8,gbk,gb18030,latin-1     "设置支持打开的文件的编码
+
+" 文件格式，默认 ffs=dos,unix
+set fileformat=unix                                   "设置新（当前）文件的<EOL>格式，可以更改，如：dos（windows系统常用）
+set fileformats=unix,dos,mac                          "给出文件的<EOL>格式类型
+" 双字宽显示
+set ambiwidth=double
+" 用于屏幕显示的编码
+set termencoding=utf-8
+
+" 查看16进制
+nmap xxd :%!xxd -c 12<CR>
+nmap xxr :%!xxd -r<CR>
+" -----------------------------------------------------------------------------
+"  < 编写文件时的配置 >
+" -----------------------------------------------------------------------------
+filetype on                                           "启用文件类型侦测
+filetype plugin on                                    "针对不同的文件类型加载对应的插件
+filetype plugin indent on                             "启用缩进
+set autoindent                                        " 把当前行的对齐格式应用到下一行(自动缩进）
+set cindent                                           " 别针对 C语言语法自动缩进
+set smartindent                                       " 依据上面的对齐格式，智能的选择对齐方式
+set gdefault                                          " 替换所有行内匹配，而不是第一个
+set expandtab                                         "将Tab键转换为空格
+set tabstop=4                                         "设置Tab键的宽度，可以更改，如：宽度为2
+set softtabstop=4                                     "和上面一样
+set shiftwidth=4                                      "换行时自动缩进宽度，可更改（宽度同tabstop）
+set smarttab                                          "指定按一次backspace就删除shiftwidth宽度
+set foldenable                                        "启用折叠
+set foldmethod=indent                                 "indent 折叠方式
+set foldlevel=9999                                    " 折叠的层次，打开文件时默认不折叠
+
+""################### key map setting #########################################
+" 常规模式下用空格键来开关光标行所在折叠（注：zR 展开所有折叠，zM 关闭所有折叠）
+nnoremap <Leader>fd @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
+
+" 当文件在外部被修改，自动更新该文件
+set autoread
+
+" 常规模式下输入 cS 清除行尾空格
+nnoremap cS :%s/\s\+$//g<CR>:noh<CR>
+" 常规模式下输入 cM 清除行尾 ^M 符号
+nnoremap cM :%s/\r$//g<CR>:noh<CR>
+" 空格+/清除搜索高亮
+noremap <Leader>/ :nohlsearch<CR>
+" 窗口分割
+noremap sj :set splitbelow<CR>:split<CR>
+noremap sk :set nosplitbelow<CR>:split<CR>
+noremap sl :set splitright<CR>:vsplit<CR>
+noremap sh :set nosplitright<CR>:vsplit<CR>
+" 移动
+ noremap J 5j
+ noremap K 5k
+ noremap L 5l
+ noremap H 5h
+ " Ctrl + J 插入模式下光标向下移动
+ imap <c-j> <Down>
+ " Ctrl + K 插入模式下光标向上移动
+ imap <c-k> <Up>
+ " Ctrl + L 插入模式下光标向右移动
+ imap <c-l> <Right>
+ " Ctrl + H 插入模式下光标向左移动
+ imap <c-h> <Left>
+ " 可用<C-k,j,h,l>切换到上下左右的窗口中去
+ noremap <c-j> <c-w>j
+ noremap <c-k> <c-w>k
+ noremap <c-l> <c-w>l
+ noremap <c-h> <c-w>h
+if has('terminal') && exists(':terminal') == 2 && has('patch-8.1.1')
+	" vim 8.1 支持 termwinkey ，不需要把 terminal 切换成 normal 模式
+	" 设置 termwinkey 为 CTRL 加减号（GVIM），有些终端下是 CTRL+?
+	" 后面四个键位是搭配 termwinkey 的，如果 termwinkey 更改，也要改
+	set termwinkey=<c-_>
+	tnoremap <c-h> <c-_>h
+	tnoremap <c-l> <c-_>l
+	tnoremap <c-j> <c-_>j
+	tnoremap <c-k> <c-_>k
+	tnoremap <m-q> <c-\><c-n>
+endif
+" F10打开内置终端，exit退出
+noremap <silent> <F10> :belowright term ++rows=16<cr>
+
+ " Ctrl + ^ 光标跳转到行头
+ imap <c-6> <ESC>0i
+ " Ctrl + $ 光标跳转到行尾
+ imap <c-4> <ESC>$i
+
+" 全选 
+ nmap <c-a> ggVG$
+ imap <c-a> <ESC>ggVG$
+
+" 搜索
+ noremap vim :vim /<C-R><C-W>../**<CR>:copen<CR>
+
+" <ESC>
+ inoremap jk <ESC>
+"退出
+ nnoremap <S-q> :q!
+ nnoremap <leader>q :q<CR>
+
+
+" 启用每行超过80列的字符提示（字体变蓝并加下划线），不启用就注释掉
+au BufWinEnter * let w:m2=matchadd('Underlined', '\%>' . 80 . 'v.\+', -1)
+
+" -----------------------------------------------------------------------------
+"  < 界面配置 >
+" -----------------------------------------------------------------------------
+set number                                            "显示行号
+set relativenumber                                    "相对行号
+set laststatus=2                                      "启用状态栏信息
+set cmdheight=2                                       "设置命令行的高度为2，默认为1
+set cursorline                                        "突出显示当前行
+" set guifont=YaHei_Consolas_Hybrid:h10                 "设置字体:字号（字体名称空格用下划线代替）
+set nowrap                                            "设置不自动换行
+set viminfo+=!                                        " 保存全局变量
+set iskeyword+=_,$,@,%,#                              "带有如下符号的单词不要被换行分割
+set backspace=2                                       "使回格键（backspace）正常处理indent, eol, start等
+set whichwrap+=<,>,h,l                                "允许backspace和光标键跨越行边界
+"set fillchars=vert:\ ,stl:\ ,stlnc:\                 " 在被分割的窗口间显示空白，便于阅读
+set shortmess=atI                                     "去掉欢迎界面
+" 我的状态行显示的内容（包括文件类型和解码）
+set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
+"if g:isGUI                                            "GVIM启动时最大化窗口
+"    set lines=50 columns=999
+"endif
+
+"设置molokai配色主题
+set t_Co=256                   " 在终端启用256色
+"hi Normal ctermfg=252 ctermbg=none
+"set background=dark
+colorscheme desert
+"if g:isGUI
+"   colorscheme desert_terminal
+"else
+"   colorscheme firefly
+"endif
+
+
+" -----------------------------------------------------------------------------
+"  < 其它配置 >
+" -----------------------------------------------------------------------------
+set writebackup                             "保存文件前建立备份，保存成功后删除该备份
+set nobackup                                "设置无备份文件
+set noswapfile                              "设置无临时文件
+set history=1000                            " 历史记录数
+set vb t_vb=                                "关闭提示音
+set showmatch                               " 高亮显示匹配的括号
+set matchtime=5                             " 匹配括号高亮的时间（单位是十分之一秒）
+set scrolloff=5                             " 光标移动到buffer的顶部和底部时保持5行距离
+set wildmenu
+set wildmode=longest:list,full              "命令模式Tab补全命令和文件名
+set autochdir                               "将工作目录自动切换到当前正在编辑文件的目录
+
+
+" 自动切换目录为当前编辑文件所在目录
+au BufRead,BufNewFile,BufEnter * cd %:p:h
+
+
+" 括号补全
+inoremap ' ''<ESC>i
+inoremap " ""<ESC>i
+"inoremap ( ()<ESC>i
+inoremap <silent>  (   ()<ESC>i<c-r>=EchoFunc()<cr>
+"inoremap ) <c-r>=ClosePair(')')<CR>
+inoremap <silent>  )   <c-r>=ClosePair(')')<CR><c-r>=EchoFuncClear()<cr>
+inoremap [ []<ESC>i
+inoremap ] <c-r>=ClosePair(']')<CR>
+inoremap { {}<ESC>i
+inoremap } <c-r>=ClosePair('}')<CR>
+"inoremap < <><ESC>i
+"inoremap > <c-r>=ClosePair('>')<CR>
+function ClosePair(char)
+    if getline('.')[col('.') - 1] == a:char
+        return "\<Right>"
+    else
+        return a:char
+    endif
+endf
+autocmd BufWritePre,BufRead *.[ch]p* :inoremap <Enter> <c-r>=BracketsEnter('}')<CR>
+function BracketsEnter(char)
+    if getline('.')[col('.')-1] == a:char
+        return "\<Enter>\<Tab>\<Esc>mpa\<Enter>\<Esc>`pa"
+    else
+        return "\<Enter>"
+    endif
+endf
