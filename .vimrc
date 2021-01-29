@@ -2,7 +2,14 @@
 "let mapleader = " "
 "nnoremap <space> <Nop>
 nmap <space> <Leader>
-
+" -----------------------------------------------------------------------------
+"  < 判断是终端还是 Gvim >
+" -----------------------------------------------------------------------------
+if has("gui_running")
+    let g:isGUI = 1
+else
+    let g:isGUI = 0
+endif
 " =============================================================================
 "                          << 以下为软件默认配置 >>
 " =============================================================================
@@ -126,7 +133,7 @@ noremap <silent> <F10> :belowright term ++rows=16<cr>
  noremap vim :vim /<C-R><C-W>../**<CR>:copen<CR>
 
 " <ESC>
- inoremap jk <ESC>
+"inoremap jk <ESC>
 "退出
  nnoremap <S-q> :q!
  nnoremap <Leader>q :q<CR>
@@ -150,7 +157,7 @@ set iskeyword+=_,$,@,%,#                              "带有如下符号的单�
 set backspace=2                                       "使回格键（backspace）正常处理indent, eol, start等
 set whichwrap+=<,>,h,l                                "允许backspace和光标键跨越行边界
 "set fillchars=vert:\ ,stl:\ ,stlnc:\                 " 在被分割的窗口间显示空白，便于阅读
-set shortmess=atI                                     "去掉欢迎界面
+"set shortmess=atI                                     "去掉欢迎界面
 " 我的状态行显示的内容（包括文件类型和解码）
 "set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
 "if g:isGUI                                            "GVIM启动时最大化窗口
@@ -341,7 +348,7 @@ nmap <F4> :Tlist<CR>
 " 常规模式下输入 F5 调用插件
 nmap <F5> :NERDTreeToggle<CR>
 "当打开vim且没有文件时自动打开NERDTree
-autocmd vimenter * if !argc() | NERDTree | endif
+"autocmd vimenter * if !argc() | NERDTree | endif
 "当打开的文件只剩NERDTree时关闭它
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
 "####################Set ctrlP Setting#################
@@ -373,12 +380,11 @@ let g:lightline = {
       \   'gitbranch': 'FugitiveHead'
       \ },
       \ }
-set statusline^=%{coc#status()}
 
 "####################Set ctags Setting#################
 "ctags Setting
 set tags=./.tags;,.tags
-set tags+=~/.vim/systags
+"set tags+=~/.vim/systags
 function UpdateCtags()
     let curdir=getcwd()
     execute "echo curdir"
@@ -415,13 +421,13 @@ function FindCsTag()
         while !filereadable("./cscope.out")
             cd ..
             if getcwd() == "/"
-                echo "Not Find Cscope.out"
+                "echo "Not Find Cscope.out"
                 break
             endif
         endwhile
         "Add cscope.out
         if filewritable("./cscope.out")
-            echo "get cscope.out"
+            "echo "get cscope.out"
             execute "cs add cscope.out"
         endif
     endif
