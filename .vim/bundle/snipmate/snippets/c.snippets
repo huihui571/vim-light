@@ -19,6 +19,19 @@ snippet FUNC+
 	* 返回值: ${4}			                                                 
 	* 备  注: ${5}			                                                 
 	*<FUNC->**********************************************************************/${6}
+snippet FH++
+	/*<FH+>************************************************************************
+	*   Editor      : Vim
+	*   File name   : ${1:FileName} 
+	*   Author      : huihui571
+	*   Created date: ${2:2021}-${3:02}-${4:22}
+	*   Description : ${5}
+	*
+	*<FH->************************************************************************/
+	#include <bits/stdc++.h>
+	using namespace std;
+	${6}
+#{}
 snippet {}
 	{
 		${1}
@@ -137,7 +150,9 @@ snippet pr
 # fprintf (again, this isn't as nice as TextMate's version, but it works)
 snippet fpr
 	fprintf(${1:stderr}, "${2:%s}\n"${3});${4}
+#snippet .
+#	[${1}]${2}
 snippet .
-	[${1}]${2}
+	->${1}
 snippet un
 	unsigned
