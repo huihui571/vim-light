@@ -16,6 +16,7 @@
 - snipmate：                      代码片段
 - syntastic：                       语法检查
 - taglist：                            符号列表
+- minibufexpl：                buffer浏览
 
 ## 使用方法
 
