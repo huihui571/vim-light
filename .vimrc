@@ -160,9 +160,10 @@ set whichwrap+=<,>,h,l                                "允许backspace和光标�
 "set shortmess=atI                                     "去掉欢迎界面
 " 我的状态行显示的内容（包括文件类型和解码）
 "set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
-"if g:isGUI                                            "GVIM启动时最大化窗口
-"    set lines=50 columns=999
-"endif
+if g:isGUI                                            "GVIM启动时最大化窗口
+    "set lines=50 columns=999
+    set nocursorline
+endif
 
 "设置molokai配色主题
 set t_Co=256                   " 在终端启用256色
