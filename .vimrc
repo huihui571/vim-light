@@ -353,6 +353,11 @@ nmap <F5> :NERDTreeToggle<CR>
 "autocmd vimenter * if !argc() | NERDTree | endif
 "当打开的文件只剩NERDTree时关闭它
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
+"####################Set MiniBufExpl Setting#################
+"切换到当前窗口中下一个buffer
+noremap <C-TAB>   :MBEbn<CR>
+"切换到当前窗口中上一个buffer
+noremap <C-S-TAB> :MBEbp<CR>
 "####################Set ctrlP Setting#################
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
