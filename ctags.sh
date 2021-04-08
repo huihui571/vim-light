@@ -15,7 +15,7 @@ function buildctags() {
 function buildcscope() {
     rm -f cscope.*
     echo "old cscope files removed, cscope building..."
-    find -name "*.py" -o -name "*.[ch]" -o -name "*.[ch]pp" > cscope.files
+    find `pwd` -name "*.py" -o -name "*.[ch]" -o -name "*.[ch]pp" > cscope.files
     if [ "$1" == "-q" ]; then
         cscope -Rbqk
     else
