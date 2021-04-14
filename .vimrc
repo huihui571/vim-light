@@ -169,7 +169,7 @@ endif
 set t_Co=256                   " 在终端启用256色
 "hi Normal ctermfg=252 ctermbg=none
 "set background=dark
-colorscheme desert
+colorscheme Tomorrow-Night
 "if g:isGUI
 "   colorscheme desert_terminal
 "else
