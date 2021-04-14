@@ -17,6 +17,7 @@
 - syntastic：                       语法检查
 - taglist：                            符号列表
 - minibufexpl：                buffer浏览
+- vim-terminal-help:            vim内置终端助手
 
 ## 使用方法
 

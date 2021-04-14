@@ -194,7 +194,7 @@ set autochdir                               "将工作目录自动切换到当�
 
 
 " 自动切换目录为当前编辑文件所在目录
-au BufRead,BufNewFile,BufEnter * cd %:p:h
+" au BufRead,BufNewFile,BufEnter * cd %:p:h "内置终端切换窗口会有问题
 
 
 " 括号补全
@@ -217,7 +217,7 @@ function ClosePair(char)
         return a:char
     endif
 endf
-autocmd BufWritePre,BufRead *.[ch]p* :inoremap <Enter> <c-r>=BracketsEnter('}')<CR>
+"autocmd BufWritePre,BufRead *.[ch]p* :inoremap <Enter> <c-r>=BracketsEnter('}')<CR>
 function BracketsEnter(char)
     if getline('.')[col('.')-1] == a:char
         return "\<Enter>\<Tab>\<Esc>mpa\<Enter>\<Esc>`pa"
@@ -387,6 +387,16 @@ let g:lightline = {
       \   'gitbranch': 'FugitiveHead'
       \ },
       \ }
+"#################Set vim-terminal-help Setting########## 
+"ALT + =: toggle terminal below.
+"ALT + SHIFT + h: move to the window on the left.
+"ALT + SHIFT + l: move to the window on the right.
+"ALT + SHIFT + j: move to the window below.
+"ALT + SHIFT + k: move to the window above.
+"ALT + SHIFT + n: move to the previous window.
+"ALT + -: paste register 0 to terminal.
+"ALT + q: switch to terminal normal mode.
+
 
 "####################Set ctags Setting#################
 "ctags Setting
