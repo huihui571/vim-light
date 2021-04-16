@@ -36,7 +36,7 @@ call pathogen#infect()
 "  < 编码配置 >
 " -----------------------------------------------------------------------------
 " 注：使用utf-8格式后，软件与程序源码、文件路径不能有中文，否则报错
-set encoding=utf-8                                    "设置gvim内部编码，默认不更改
+set encoding=gbk                                    "设置gvim内部编码，默认不更改
 set fileencoding=utf-8                                "设置当前文件编码，可以更改，如：gbk（同cp936）
 set fileencodings=ucs-bom,utf-8,gbk,gb18030,latin-1     "设置支持打开的文件的编码
 
@@ -140,7 +140,7 @@ noremap <silent> <F10> :belowright term ++rows=16<cr>
 
 
 " 启用每行超过80列的字符提示（字体变蓝并加下划线），不启用就注释掉
-au BufWinEnter * let w:m2=matchadd('Underlined', '\%>' . 80 . 'v.\+', -1)
+au BufWinEnter * let w:m2=matchadd('Underlined', '\%>' . 120 . 'v.\+', -1)
 
 " -----------------------------------------------------------------------------
 "  < 界面配置 >
@@ -150,7 +150,7 @@ set relativenumber                                    "相对行号
 set laststatus=2                                      "启用状态栏信息
 set cmdheight=2                                       "设置命令行的高度为2，默认为1
 set cursorline                                        "突出显示当前行
-" set guifont=YaHei_Consolas_Hybrid:h10                 "设置字体:字号（字体名称空格用下划线代替）
+set guifont=DejaVu_Sans_Mono:h11                 "设置字体:字号（字体名称空格用下划线代替）
 set nowrap                                            "设置不自动换行
 set viminfo+=!                                        " 保存全局变量
 set iskeyword+=_,$,@,%,#                              "带有如下符号的单词不要被换行分割
@@ -194,7 +194,7 @@ set autochdir                               "将工作目录自动切换到当�
 
 
 " 自动切换目录为当前编辑文件所在目录
-" au BufRead,BufNewFile,BufEnter * cd %:p:h "内置终端切换窗口会有问题
+"au BufRead,BufNewFile,BufEnter * cd %:p:h "切换到内置终端时报错
 
 
 " 括号补全
@@ -304,8 +304,8 @@ let g:jedi#rename_command="<Leader>jr"
 "###################Set syntastic Setting################
 "设置error和warning的标志
 let g:syntastic_enable_signs = 1
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='►'
+"let g:syntastic_error_symbol='✗'
+"let g:syntastic_warning_symbol='►'
 let g:syntastic_enable_highlighting=1
 "设置状态栏
 set statusline+=%#warningmsg#
@@ -316,6 +316,7 @@ let g:syntastic_cpp_checkers = ['gcc']
 let g:syntastic_cpp_compiler = 'gcc'
 let g:syntastic_cpp_compiler_options = '-std=c++11'
 let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_python_flake8_args = '--ignore=F401,F841'
 "关闭实时检查，只在打开文件和保存时运行检查
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
@@ -344,7 +345,7 @@ let Tlist_Exit_OnlyWindow=1
 let Tlist_Show_Menu=1
 let Tlist_Use_Right_Window=1
 let Tlist_WinWidth=40
-let Tlist_Ctags_Cmd="/usr/bin/ctags"
+let Tlist_Ctags_Cmd="D:/ctags58/ctags.exe"
 nmap <F4> :Tlist<CR>
 "####################Set NERDTree Setting#################
 " 常规模式下输入 F5 调用插件
@@ -396,7 +397,6 @@ let g:lightline = {
 "ALT + SHIFT + n: move to the previous window.
 "ALT + -: paste register 0 to terminal.
 "ALT + q: switch to terminal normal mode.
-
 
 "####################Set ctags Setting#################
 "ctags Setting
