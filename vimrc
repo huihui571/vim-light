@@ -304,8 +304,8 @@ let g:jedi#rename_command="<Leader>jr"
 "###################Set syntastic Setting################
 "设置error和warning的标志
 let g:syntastic_enable_signs = 1
-"let g:syntastic_error_symbol='✗'
-"let g:syntastic_warning_symbol='►'
+let g:syntastic_error_symbol='x'
+let g:syntastic_warning_symbol='?'
 let g:syntastic_enable_highlighting=1
 "设置状态栏
 set statusline+=%#warningmsg#
@@ -397,11 +397,25 @@ let g:lightline = {
 "ALT + SHIFT + n: move to the previous window.
 "ALT + -: paste register 0 to terminal.
 "ALT + q: switch to terminal normal mode.
+"#################Set CtrlSF Setting########## 
+let g:ctrlsf_auto_preview = 0
+let g:ctrlsf_context = '-B 5 -A 3'
+let g:ctrlsf_search_mode = 'async'
+
+nmap     <C-F>f <Plug>CtrlSFPrompt
+vmap     <C-F>f <Plug>CtrlSFVwordPath
+vmap     <C-F>F <Plug>CtrlSFVwordExec
+nmap     <C-F>n <Plug>CtrlSFCwordPath
+nmap     <C-F>p <Plug>CtrlSFPwordPath
+nnoremap <C-F>o :CtrlSFOpen<CR>
+nnoremap <C-F>t :CtrlSFToggle<CR>
+inoremap <C-F>t <Esc>:CtrlSFToggle<CR>
+
 
 "####################Set ctags Setting#################
 "ctags Setting
 set tags=./.tags;,.tags
-"set tags+=~/.vim/systags
+set tags+=~/vimfiles/tags/cpp_tags
 function UpdateCtags()
     let curdir=getcwd()
     execute "echo curdir"
