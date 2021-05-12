@@ -396,7 +396,19 @@ let g:lightline = {
 "ALT + SHIFT + n: move to the previous window.
 "ALT + -: paste register 0 to terminal.
 "ALT + q: switch to terminal normal mode.
+"#################Set CtrlSF Setting########## 
+let g:ctrlsf_auto_preview = 0
+let g:ctrlsf_context = '-B 5 -A 3'
+let g:ctrlsf_search_mode = 'async'
 
+nmap     <C-F>f <Plug>CtrlSFPrompt
+vmap     <C-F>f <Plug>CtrlSFVwordPath
+vmap     <C-F>F <Plug>CtrlSFVwordExec
+nmap     <C-F>n <Plug>CtrlSFCwordPath
+nmap     <C-F>p <Plug>CtrlSFPwordPath
+nnoremap <C-F>o :CtrlSFOpen<CR>
+nnoremap <C-F>t :CtrlSFToggle<CR>
+inoremap <C-F>t <Esc>:CtrlSFToggle<CR>
 
 "####################Set ctags Setting#################
 "ctags Setting

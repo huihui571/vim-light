@@ -18,6 +18,7 @@
 - taglist：                            符号列表
 - minibufexpl：                buffer浏览
 - vim-terminal-help:            vim内置终端助手
+- ctrlsf:                               全局文本搜索
 
 ## 使用方法
 
